@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Database_QLKSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Permission">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Register_Room">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="user_id" Type="int" Nullable="false" />
+    <Property Name="room_id" Type="int" Nullable="false" />
+    <Property Name="date_begin" Type="date" Nullable="false" />
+    <Property Name="date_end" Type="date" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Room">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="status" Type="tinyint" Nullable="false" />
+    <Property Name="type" Type="tinyint" Nullable="false" />
+    <Property Name="price" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="describe" Type="text" Nullable="false" />
+    <Property Name="detail" Type="text" Nullable="false" />
+    <Property Name="menber" Type="nchar" MaxLength="10" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Service">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="price" Type="money" Nullable="false" />
+    <Property Name="describe" Type="text" Nullable="false" />
+    <Property Name="detail" Type="text" Nullable="false" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="username" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="password" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="fullname" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="birthday" Type="date" Nullable="false" />
+    <Property Name="sex" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="people_id" Type="nchar" MaxLength="12" Nullable="false" />
+    <Property Name="address" Type="nvarchar" MaxLength="80" Nullable="false" />
+    <Property Name="phone" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="mail" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="User_Permision">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="user_id" Type="int" Nullable="false" />
+    <Property Name="permission_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Using_Service">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="user_id" Type="int" Nullable="false" />
+    <Property Name="service_id" Type="int" Nullable="false" />
+    <Property Name="count" Type="int" Nullable="false" />
+    <Property Name="status" Type="tinyint" Nullable="false" />
+    <Property Name="date" Type="date" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Table_To_permissions">
+    <End Role="Permission" Type="Self.Permission" Multiplicity="1" />
+    <End Role="User_Permision" Type="Self.User_Permision" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Permission">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="User_Permision">
+        <PropertyRef Name="permission_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Table_To_room">
+    <End Role="Room" Type="Self.Room" Multiplicity="1" />
+    <End Role="Register_Room" Type="Self.Register_Room" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Room">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Register_Room">
+        <PropertyRef Name="room_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Table_To_user">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Register_Room" Type="Self.Register_Room" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Register_Room">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Table_To_users">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="User_Permision" Type="Self.User_Permision" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="User_Permision">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_using_service_To_service">
+    <End Role="Service" Type="Self.Service" Multiplicity="1" />
+    <End Role="Using_Service" Type="Self.Using_Service" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Service">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Using_Service">
+        <PropertyRef Name="service_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_using_service_To_user">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Using_Service" Type="Self.Using_Service" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Using_Service">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Database_QLKSModelStoreContainer">
+    <EntitySet Name="Permission" EntityType="Self.Permission" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Register_Room" EntityType="Self.Register_Room" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Room" EntityType="Self.Room" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Service" EntityType="Self.Service" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User_Permision" EntityType="Self.User_Permision" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Using_Service" EntityType="Self.Using_Service" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Table_To_permissions" Association="Self.FK_Table_To_permissions">
+      <End Role="Permission" EntitySet="Permission" />
+      <End Role="User_Permision" EntitySet="User_Permision" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Table_To_room" Association="Self.FK_Table_To_room">
+      <End Role="Room" EntitySet="Room" />
+      <End Role="Register_Room" EntitySet="Register_Room" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Table_To_user" Association="Self.FK_Table_To_user">
+      <End Role="User" EntitySet="User" />
+      <End Role="Register_Room" EntitySet="Register_Room" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Table_To_users" Association="Self.FK_Table_To_users">
+      <End Role="User" EntitySet="User" />
+      <End Role="User_Permision" EntitySet="User_Permision" />
+    </AssociationSet>
+    <AssociationSet Name="FK_using_service_To_service" Association="Self.FK_using_service_To_service">
+      <End Role="Service" EntitySet="Service" />
+      <End Role="Using_Service" EntitySet="Using_Service" />
+    </AssociationSet>
+    <AssociationSet Name="FK_using_service_To_user" Association="Self.FK_using_service_To_user">
+      <End Role="User" EntitySet="User" />
+      <End Role="Using_Service" EntitySet="Using_Service" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

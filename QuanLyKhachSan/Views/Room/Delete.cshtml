@@ -1,0 +1,111 @@
+﻿@model QuanLyKhachSan.Models.Room
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+}
+
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    Delete Room
+                </h2>
+
+                <ul class="header-dropdown m-r--5">
+                    <a href="javascript:void(0);" style="position: relative; top: 4px;"><li class="material-icons">search</li></a>
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="@Url.Action("Create", new { Action ="Create" })">New Room</a></li>
+
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="body table-responsive">
+
+
+                <div>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.name)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.name)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.status)
+                        </dt>
+
+                        <dd>
+                            @{
+                                var status = "Available";
+                                if (Model.status == 1)
+                                {
+                                    status = "Using";
+                                }
+                                if (Model.status == 2)
+                                {
+                                    status = "Using";
+                                }
+                            }
+                            @status
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.type)
+                        </dt>
+
+                        <dd>
+                            @{
+                                var type = "A";
+                                if (Model.type == 2)
+                                {
+                                    type = "B";
+                                }
+                                if (Model.type == 3)
+                                {
+                                    type = "C";
+                                }
+                                if (Model.type == 4)
+                                {
+                                    type = "D";
+                                }
+                                if (Model.type == 5)
+                                {
+                                    type = "F";
+                                }
+
+                            }
+                            @type
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.price)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.price)
+                        </dd>
+
+                    </dl>
+                </div>
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-actions no-color">
+                        <input type="submit" value="Delete" class="btn btn-default" /> |
+                        @Html.ActionLink("Back to List", "Index")
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

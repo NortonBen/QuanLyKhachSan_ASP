@@ -1,0 +1,109 @@
+﻿@using QuanLyKhachSan.Helper;
+@model QuanLyKhachSan.Models.Room
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+}
+
+<link href="~/Content/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    Edit Room
+                </h2>
+                <ul class="header-dropdown m-r--5">
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="@Url.Action("Create", new { Action ="Create" })">New Room</a></li>
+
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="body table-responsive">
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                       
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.Id)
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.name, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                <div class="form-line">
+                                    @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.status, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-3">
+                                <select class="form-control show-status" name="status">
+                                    <option @Elememt.Select_Check(Model.status, 0) value="0">Available</option>
+                                    <option @Elememt.Select_Check(Model.status, 1) value="1">Using</option>
+                                    <option @Elememt.Select_Check(Model.status, 2) value="2">Close</option>
+                                </select>
+                                @Html.ValidationMessageFor(model => model.status, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-5">
+                                @Html.LabelFor(model => model.type, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-8">
+                                    <select class="form-control show-status" name="type">
+                                        <option @Elememt.Select_Check(Model.type,1) value="1">A</option>
+                                        <option @Elememt.Select_Check(Model.type,2) value="2">B</option>
+                                        <option @Elememt.Select_Check(Model.type,3) value="3">C</option>
+                                        <option @Elememt.Select_Check(Model.type,4) value="4">D</option>
+                                        <option @Elememt.Select_Check(Model.type,5) value="5">F</option>
+                                    </select>
+                                    @Html.ValidationMessageFor(model => model.type, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.price, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                <div class="form-line">
+                                    @Html.EditorFor(model => model.price, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+                                    @Html.ValidationMessageFor(model => model.price, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Save" class="btn btn-default" />
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <div class="row clearfix">
+                    @Html.ActionLink("Back to List", "Index")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Content/plugins/bootstrap-select/js/bootstrap-select.js"></script>
+<script src="~/Content/plugins/jquery-inputmask/jquery.inputmask.bundle.js"></script>
+<script>
+    jQuery(document).ready(function ($) {
+        $('.show-status').selectpicker({
+            size: 12
+        });
+    })
+</script>

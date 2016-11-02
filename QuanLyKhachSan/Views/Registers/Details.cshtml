@@ -1,0 +1,51 @@
+﻿@model QuanLyKhachSan.Models.Register
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Register</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Room.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Room.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.User.username)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.username)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.date_begin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.date_begin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.date_end)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.date_end)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

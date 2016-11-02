@@ -1,0 +1,110 @@
+﻿
+@model  IEnumerable<QuanLyKhachSan.Models.User>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+}
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    Manage User
+                </h2>
+                
+                <ul class="header-dropdown m-r--5">
+                    <a href="javascript:void(0);" style="position: relative; top: 4px;"><li class="material-icons">search</li></a>
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="@Url.Action("Create", new { Action ="Create" })">New User</a></li>
+
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="body table-responsive">
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.username)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.fullname)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.birthday)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.sex)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.email)
+                            </th>
+                            <th></th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.username)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.fullname)
+                                </td>
+                                <td>
+                                    @{ var date = item.birthday.ToString("dd/MM/yyyy"); }
+                                    @date
+                                </td>
+                                <td>
+                                    @{ 
+                                        var sex = (item.sex) ? "Nam" : "Nữ";
+                                    }
+                                    @sex
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.email)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
+                                    @Html.ActionLink("Password", "Password", new { id = item.Id })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                   
+                </table>
+                <nav>
+                        <ul class="pagination">
+                            <li>
+                                <a href="javascript:void(0);" class="waves-effect">
+                                    <i class="material-icons">chevron_left</i>
+                                </a>
+                            </li>
+                            <li><a href="javascript:void(0);" class="waves-effect">1</a></li>
+                            <li><a href="javascript:void(0);" class="waves-effect">2</a></li>
+                            <li><a href="javascript:void(0);" class="waves-effect">3</a></li>
+                            <li><a href="javascript:void(0);" class="waves-effect">4</a></li>
+                            <li><a href="javascript:void(0);" class="waves-effect">5</a></li>
+                            <li>
+                                <a href="javascript:void(0);" class="waves-effect">
+                                    <i class="material-icons">chevron_right</i>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+            </div>
+        </div>
+    </div>
+</div>

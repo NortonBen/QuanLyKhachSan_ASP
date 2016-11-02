@@ -1,0 +1,96 @@
+﻿@using QuanLyKhachSan.Models;
+@model QuanLyKhachSan.Models.Register
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout_Site.cshtml";
+}
+
+<div class="single">
+    <div class="container">
+
+        <div class="single-top">
+            <div class="col-md-12 single-left">
+                <h3><a href="javascript:void(0);">Detail</a></h3>
+            </div>
+            <div class="col-md-12 single-left">
+                <h6 style=" margin: 20px 0px">Book Room</h6>   
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Room.name)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Room.name)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.User.username)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.User.username)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.date_begin)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.date_begin)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.date_end)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.date_end)
+                    </dd>
+                    <dt>
+                       Price
+                    </dt>
+
+                    <dd>
+                        @Model.total()
+                    </dd>
+
+                </dl>
+                <div class="clearfix"> </div>
+                <h6 style=" margin: 20px 0px">Service</h6>   
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <td>Name</td>
+                            <td>Price</td>
+                            <td>Count</td>
+                            <td></td>
+                        </tr>
+                    </thead>   
+                    <tbody>
+                        @foreach(Using_Service item in Model.Using_Service)
+                        {
+                            <tr>
+                                <td>@item.Service.name</td>
+                                <td>@item.Service.price</td>
+                                <td>@item.count</td>
+                                <td>
+                                    @if (Model.is_del())
+                                    {
+                                        @Html.ActionLink("Delete", "DeleteSV", new { id = item.Id , register = Model.Id})
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                   
+                </table>
+            </div>
+            <p>
+                @Html.ActionLink("Back to List", "Index")
+            </p>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+
+</div>

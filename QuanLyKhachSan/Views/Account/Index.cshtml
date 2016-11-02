@@ -1,0 +1,81 @@
+﻿@using QuanLyKhachSan.Models;
+@model List<Register>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout_Site.cshtml";
+}
+<!-- single -->
+<div class="single">
+    <div class="container">
+
+        <div class="single-top">
+            <div class="col-md-12 single-left">
+                <h3><a href="javascript:void(0);">Acccout</a></h3>
+            </div>
+            <div class="col-md-12 single-left">
+
+             
+               
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+
+        <div class="single-top">
+            <div class="col-md-12 single-left">
+                <h3><a href="javascript:void(0);">History Transaction</a></h3>
+            </div>
+            <div class="col-md-12 single-left">
+
+
+                <table class="table">
+                    <tr>
+                        <th>
+                            Room
+                        </th>
+                        <th>
+                            Begin
+                        </th>
+                        <th>
+                            End
+                        </th>
+                        <th>
+                            Price
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Room.name)
+                            </td>
+                            <td>
+                                @{ var date_begin = item.date_begin.ToString("dd/MM/yyyy"); }
+                                @date_begin
+                            </td>
+                            <td>
+                                @{ var date_end = item.date_end.ToString("dd/MM/yyyy"); }
+                                @date_end
+                            </td>
+                            <td>
+                                @item.total()
+                            </td>
+                            <td>
+                                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                                @if (item.is_del())
+                                {
+                                    @Html.ActionLink("Delete", "DeleteBR", new { id = item.Id }) 
+                                }
+                                | @Html.ActionLink("Add Service", "AddService", new { id = item.Id })
+                            </td>
+                        </tr>
+                                    }
+
+                </table>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+
+    </div>
+</div>

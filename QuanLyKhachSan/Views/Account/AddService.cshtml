@@ -1,0 +1,49 @@
+﻿@using QuanLyKhachSan.Models;
+@model QuanLyKhachSan.Models.Register
+@{
+    ViewBag.Title = "AddService";
+    Layout = "~/Views/Shared/_Layout_Site.cshtml";
+    var services = (new DataContext()).Service.ToList();
+}
+
+<div class="single">
+    <div class="container">
+
+        <div class="single-top">
+            <form method="post">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <input type="hidden" name="register" value="@Model.Id" />
+                <div class="col-md-12 single-left">
+                    <h3><a href="javascript:void(0);">Add Service</a></h3>
+                </div>
+                <div class="col-md-12 single-left">
+                    <h6 style=" margin: 20px 0px">Service</h6>
+                    <div class="col-md-12">
+                        <div class="col-md-3 dropdown-button">
+                            <label style=" color: #a5a7a3;">Service</label>  
+                            <div class="section_1">
+                                <select name="service" class="frm-field required" style="border-bottom: solid 2px #6cbc35;">
+                                    @foreach (var service in services)
+                                    {
+                                        <option value="@service.Id">@service.name - Price : @service.price</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 dropdown-button">
+                            <label style=" color: #a5a7a3;">Count</label>   
+                            <div class="book_date">
+                                <input class="frm-field required" name="count" value="1"  type="number"  style="border: none; outline: none; font-size: 14px; min-height: 40px;  padding: 10px 9px 9px 9px; width: 100%; color: #555; border-bottom: solid 2px #6cbc35;">
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+                <div class="col-md-3 dropdown-button" style=" float: right">
+                    <input type="submit" class=" hvr-shutter-in-horizontal" value="Add Register" />
+                </div>
+                <div class="clearfix"> </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,158 @@
+﻿@using QuanLyKhachSan.Models;
+@model QuanLyKhachSan.Models.User
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+    List<User_Role> user_roles = ViewBag.user_roles;
+    var roles = (new DataContext()).Role.ToList();
+    var check = "selected";
+}
+
+<link href="~/Content/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    Edit User
+                </h2>
+                <ul class="header-dropdown m-r--5">
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="@Url.Action("Create", new { Action ="Create" })">New User</a></li>
+
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="body table-responsive">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.Id)
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.username, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                <div class="form-line">
+                                    @Html.EditorFor(model => model.username, new { htmlAttributes = new { @class = "form-control", @placeholder = "Username" } })
+                                    @Html.ValidationMessageFor(model => model.username, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.fullname, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                <div class="form-line">
+                                    @Html.EditorFor(model => model.fullname, new { htmlAttributes = new { @class = "form-control", @placeholder = "Fullname" } })
+                                    @Html.ValidationMessageFor(model => model.fullname, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.birthday, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-3">
+                                <div class="form-line">
+                                    @{ var date = Model.birthday.ToString("yyyy-MM-dd"); }
+                                    <input type="date" name="birthday" value="@date" class="form-control" placeholder="Birthday" />
+                                    @Html.ValidationMessageFor(model => model.birthday, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                @Html.LabelFor(model => model.sex, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-8">
+                                    <select class="show-sex" name="sex">
+                                        <option @if(!Model.sex) { @check } value="false">Nữ</option>
+                                        <option @if(Model.sex) { @check }  value="true">Nam</option>
+                                    </select>
+                                    @Html.ValidationMessageFor(model => model.sex, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.people_id, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                <div class="form-line">
+                                    @Html.EditorFor(model => model.people_id, new { htmlAttributes = new { @class = "form-control", @placeholder = "People ID" } })
+                                    @Html.ValidationMessageFor(model => model.people_id, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.address, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                <div class="form-line">
+                                    @Html.EditorFor(model => model.address, new { htmlAttributes = new { @class = "form-control", @placeholder = "Address" } })
+                                    @Html.ValidationMessageFor(model => model.address, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.phone, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                <div class="form-line">
+                                    @Html.EditorFor(model => model.phone, new { htmlAttributes = new { @class = "form-control", @placeholder = "Phone Number" } })
+                                    @Html.ValidationMessageFor(model => model.phone, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-8">
+                                <div class="form-line">
+                                    @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control", @placeholder = "Email" } })
+                                    @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="permission" class="control-label col-md-2">Permission</label>
+                            <div class="col-md-8">
+                                <select class="show-sex" name="permissons">
+
+                                    @foreach (Role role in roles)
+                                    {
+                                        <option @if (user_roles.Where(t => t.Role_Id == role.Id).ToList().Count != 0) { @check } value="@role.Id">@role.permission</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Save" class="btn btn-default" />
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="row clearfix">
+                    @Html.ActionLink("Back to List", "Index")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Content/plugins/bootstrap-select/js/bootstrap-select.js"></script>
+<script src="~/Content/plugins/jquery-inputmask/jquery.inputmask.bundle.js"></script>
+<script>
+    jQuery(document).ready(function ($) {
+        $('.show-sex').selectpicker({
+            size: 12
+        });
+    })
+</script>

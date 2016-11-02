@@ -1,0 +1,197 @@
+﻿@using QuanLyKhachSan.Helper;
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/site/css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <!-- Custom Theme files -->
+    <link href="~/Content/site/css/style.css" rel='stylesheet' type='text/css' />
+    <script src="~/Content/site/js/jquery-1.11.1.min.js"></script>
+    <!--webfonts-->
+    <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300italic,300,600' rel='stylesheet' type='text/css'>
+    <!--//webfonts-->
+    <script type="text/javascript" src="~/Content/site/js/bootstrap.js"></script>
+</head>
+<body>
+    
+    <!-- banner --> 
+    <div  class="banner" @MyHelper.banner(!MyHelper.Show(new string[] { "home" }))  >
+        <div class="header">
+            <div class="container">
+                <div class="logo">
+                    <h1>@Html.ActionLink("Khách Sạn", "index")</h1>
+                </div>
+                <nav class="navbar navbar-default" role="navigation">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <!--/.navbar-header-->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            <li @ActionMenu.Action("home")>@Html.ActionLink("Home", "home", new { Controller = "Home", Action = "home" })</li>
+                            <li @ActionMenu.Action("rooms")>@Html.ActionLink("Rooms","rooms", new { Controller = "Home", Action = "rooms" })</li>
+                            <li @ActionMenu.Action("BookRoom")> @Html.ActionLink("Book room","index", new { Controller = "BookRoom", Action = "Index" })</li>
+                            <li @ActionMenu.Action("contact")>@Html.ActionLink("Contact", "contact", new { Controller = "Home", Action = "contact" })</li>
+                           @if (AuthFactory.Auth.User == null)
+                           {
+                                <li @ActionMenu.Action("login")>@Html.ActionLink("Sign In", "login", new { Controller = "Home", Action = "login" })</li>
+                           }
+                           else
+                           {
+                                <li class="dropdown">
+                                    <a  href="javascript:void(0);" data-toggle="dropdown">
+                                        @AuthFactory.Auth.User.username
+                                        <span class="caret" style="color: #ffffff;"></span>
+                                    </a>
+                                    <ul class="dropdown-menu" style="background-color: #6cbc35;    background-color: #6cbc35;     margin-top: 25px;">
+                                        <li>@Html.ActionLink("Acount", "index", new { Controller = "Account", Action = "index" })</li>
+                                        <li>@Html.ActionLink("Sig out", "logout", new { Controller = "Home", Action = "logout" })</li>
+                                    </ul>
+                                </li>
+                                
+                           }
+                        </ul>
+                    </div>
+                    <!--/.navbar-collapse-->
+                </nav>
+                <div class="search-box">
+                    <div id="sb-search" class="sb-search">
+                        <form>
+                            <input class="sb-search-input" placeholder="Enter your search term..." type="search" name="search" id="search">
+                            <input class="sb-search-submit" type="submit" value="">
+                            <span class="sb-icon-search"> </span>
+                        </form>
+                    </div>
+                </div>
+                <div class="clearfix"> </div>
+
+                <!-- search-scripts -->
+                <script src="~/Content/site/js/classie.js"></script>
+                <script src="~/Content/site/js/uisearch.js"></script>
+                <script>
+						new UISearch( document.getElementById( 'sb-search' ) );
+                </script>
+                <!-- //search-scripts -->
+
+            </div>
+        </div>
+        @if(MyHelper.Show(new string[] { "home"}))
+        {
+            <div class="banner-info">
+                <div class="container">
+                    <div class="details-1">
+                        <div class="col-md-10 dropdown-buttons">
+                            <div class="col-md-3 dropdown-button">
+                                <div class="input-group">
+                                    <input class="form-control has-dark-background" name="slider-name" id="slider-name" placeholder="Name" type="text" required="">
+                                </div>
+                            </div>
+                            <!---strat-date-piker---->
+                            <link rel="stylesheet" href="~/Content/site/css/jquery-ui.css" />
+                            <script src="~/Content/site/js/jquery-ui.js"></script>
+                            <script>
+									  $(function() {
+										$( "#datepicker,#datepicker1" ).datepicker();
+									  });
+                            </script>
+                            <!---/End-date-piker---->
+
+                            <div class="col-md-3 dropdown-button">
+                                <div class="book_date">
+                                    <form>
+                                        <input class="date" id="datepicker" type="text" value="Check In" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Check In';}">
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-md-3 dropdown-button">
+                                <div class="book_date">
+                                    <form>
+                                        <input class="date1" id="datepicker1" type="text" value="Check Out" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Check Out';}">
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-md-3 dropdown-button">
+                                <div class="section_1">
+                                    <select id="country" onchange="change_country(this.value)" class="frm-field required">
+                                        <option value="null">Double Room</option>
+                                        <option value="null">Sigle Room</option>
+                                        <option value="AX">Suit Room</option>
+                                        <option value="AX">Guest Room</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="clearfix"> </div>
+                        </div>
+                        <div class="col-md-2 submit_button">
+                            <form action="details.html">
+                                <input type="submit" value="Search">
+                            </form>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                </div>
+            </div>
+        }
+        
+    </div>
+    <!-- banner -->
+     @RenderBody()
+    <!-- footer -->
+    <div class="footer">
+        <div class="container">
+            <div class="col-md-2 deco">
+                <h4>Navigation</h4>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shortcodes.html">Short Codes </a></li>
+                <li><a href="sigin.html">Sign in</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </div>
+            <div class="col-md-2 deco">
+                <h4>Links</h4>
+                <li><a href="#">Qui Sommes-Nous ?</a></li>
+                <li><a href="#">Mentions Légales </a></li>
+                <li><a href="#">Conditions D'Utilisation </a></li>
+            </div>
+            <div class="col-md-2 deco">
+                <h4>Social</h4>
+                <div class="soci">
+                    <li><a href="#"><i class="f-1"> </i></a></li>
+                    <li><a href="#"><i class="t-1"> </i></a></li>
+                    <li><a href="#"><i class="g-1"> </i></a></li>
+                </div>
+            </div>
+            <div class="col-md-3 cardss">
+                <h4>Payment Sécure</h4>
+                <li><i class="visa"></i></li>
+                <li><i class="ma"></i></li>
+                <li><i class="paypal"></i></li>
+                <div class="clearfix"> </div>
+            </div>
+            <div class="col-md-3 pos">
+                <h4>NewsLetter</h4>
+                <form method="post">
+                    <input type="text" class="textbox" value="Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}">
+                    <div class="smt">
+                        <input type="submit" value="Subscribe">
+                    </div>
+                </form>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="container">
+            <p>© 2015 Motel. All Rights Reserved | Design by  <a href="http://w3layouts.com/" target="_blank">W3layouts</a> </p>
+        </div>
+    </div>
+    <!-- footer -->
+</body>
+</html>

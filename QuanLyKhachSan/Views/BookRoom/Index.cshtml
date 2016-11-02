@@ -1,0 +1,253 @@
+﻿@using QuanLyKhachSan.Models;
+@using System.Web.Script.Serialization;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout_Site.cshtml";
+    DataContext db = new DataContext();
+    db.Configuration.ProxyCreationEnabled = false;
+    var services = db.Service.ToList();
+    JavaScriptSerializer serializer = new JavaScriptSerializer();
+    var services_ = serializer.Serialize(services);
+}
+
+<!-- single -->
+<div class="single">
+    <div class="container">
+
+        <div class="single-top">
+            <div class="col-md-12 single-left">
+                <h3><a href="javascript:void(0);">Book Room</a></h3>
+            </div>
+            <div class="col-md-12 single-left" style="margin-top: 50px">
+                <h6 style=" width: 90%;">Time Book Room & Type Room</h6>
+                <div class="col-md-12" style="margin-top: 20px">
+                    <!---strat-date-piker---->
+                    <link rel="stylesheet" href="/Content/site/css/jquery-ui.css" />
+                    <script src="/Content/site/js/jquery-ui.js"></script>
+                    <script>
+								$(function() {
+								$( "#datepicker,#datepicker1" ).datepicker();
+								});
+                    </script>
+                    <!---/End-date-piker---->
+
+                    <div class="col-md-3 dropdown-button">
+                        <div class="book_date">
+                            <input v-model="date_begin" class="date" id="datepicker" type="text" value="Check In" style="border-bottom: solid 2px #6cbc35;" />
+                        </div>
+                    </div>
+                    <div class="col-md-3 dropdown-button">
+                        <div class="book_date">
+                            <input v-model="date_end" class="date1" id="datepicker1" type="text" value="Check Out" style="border-bottom: solid 2px #6cbc35;">
+                        </div>
+                    </div>
+                    <div class="col-md-3 dropdown-button">
+                        <div class="section_1">
+                            <select v-model="type" id="country" class="frm-field required" style="border-bottom: solid 2px #6cbc35;">
+                                <option value="-1">All Room</option>
+                                <option value="1">Room Type A</option>
+                                <option value="2">Room Type B</option>
+                                <option value="3">Room Type C</option>
+                                <option value="4">Room Type D</option>
+                                <option value="5">Room Type F</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3 dropdown-button">
+                        <a v-on:click="check_room" href="javascript:void(0)" class=" hvr-shutter-in-horizontal">Check Room</a>
+                    </div>
+                    <div class="clearfix"> </div>
+
+                </div>
+                <div class="clearfix"> </div>
+                <h6 style=" width: 90%; margin-top: 40px;">Room & Service</h6>
+                <div class="col-md-12" style="margin-top: 20px">
+                    <div class="col-md-3 dropdown-button">
+                        <label style=" color: #553a99;">Room</label>
+                        <div class="section_1">
+                            <select v-model="data.room.id" id="room" class="frm-field required" style="border-bottom: solid 2px #6cbc35;">
+                                <option v-for="room in rooms" :value="room.Id" v-text="room.name"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="clearfix"> </div>
+                    <div class="col-md-6 dropdown-button" style="margin-top:20px">
+                        <label style=" color: #553a99;">Service</label>
+                        <div class="section_1">
+                            <select v-model="service_using" class="frm-field required" style="border-bottom: solid 2px #6cbc35;" multiple>
+                               @foreach (Service service in services)
+                               {
+                                <option value="@service.Id">@service.name - Price : @service.price</option>
+
+                               }
+                               
+                            </select>
+                        </div>
+                    </div>
+                    <div class="clearfix"> </div>
+
+                </div>
+                <div class="clearfix"> </div>
+                <div class="sinbt">
+                    <a v-on:click="book_room" class="hvr-shutter-in-horizontal" href="javascrip:void(0)">Book Room</a>
+                </div>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="BookRoomModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title">Xác nhận đặt phòng</h3>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h4 style="margin-bottom: 10px;">Room</h4>
+                        <div class="col-sm-6">
+                            <p>Name : <span v-text="data.room.name"></span></p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p>Price : <span v-text="data.room.price"></span></p>
+                        </div>
+                        <hr />
+                        <div v-if="data.services.length > 0">
+                            <h4 style="margin-bottom: 10px;">Service</h4>
+                            <div class="col-sm-12" v-for="item in data.services">
+                                <div class="col-sm-6">
+                                    <p>Name : <span v-text="item.name"></span></p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p>Price : <span v-text="item.price"></span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <h4 style="margin-bottom: 10px;">Total: <span v-text="data.total"></span></h4>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" v-on:click="send_data" data-dismiss="modal">Ok</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- registration -->
+<script src="/Content/site/js/vue.js"></script>
+<script src="/Content/site/js/vue-resource.min.js"></script>
+<script>
+    var services = @(new HtmlString(services_));
+        new Vue({
+            el: "body",
+            data: {
+                rooms: [],
+                date_begin: "",
+                services: services,
+                date_end: "",
+                service_using: [],
+                type : -1,
+                data: {
+                    room:{
+                        id : 0,
+                        name: "",
+                        price: 0
+                    },
+                    services: [],
+                    total: 0,
+                }
+            },
+            methods: {
+
+                check_room: function (e) {
+                    //e.preventdefault();
+                    this.rooms = [];
+                    var _begin = this.conver_date(this.date_begin);
+                    var end = this.conver_date(this.date_end);
+                    var form = new FormData();
+                    form.append("begin", _begin);
+                    form.append("end", end);
+                    form.append("type", parseInt(this.type));
+                    this.$http.post("@Url.Action("CheckRom",new { Controller = "BookRoom" , Action = "CheckRom" })", form).then( (data) => {
+                        _data = data
+                        this.convert_room(data.data);
+                    })
+                },
+                book_room: function(){
+
+                    var id = this.data.room.id;
+                    this.rooms.forEach((room)=>{
+                        if(room.Id == id){
+                            this.data.room.name = room.name;
+                            this.data.room.price = room.price;
+                        }
+                    });
+                    this.service_using.forEach( (id) => {
+                        this.data.services.push(this.get_service(parseInt(id)));
+                    });
+
+                    var time = new Date(this.date_end)  - new Date(this.date_begin);
+                    var date = time / (86400 * 1000)+1;
+                    console.log("date",time,date);
+                    var price = date*this.data.room.price;
+                    var tax = price*0.1;
+                    console.log("price",price,tax);
+                    var total = 0;
+                    this.data.services.forEach( (service) =>{
+                        total += service.price;
+                    });
+
+                    this.data.total = price+tax+total;
+                    console.log("total",this.data.total,total);
+                    $("#BookRoomModal").modal();
+                },
+                get_service: function(id){
+                    var data = {};
+                    this.services.forEach( (service) =>{
+                        if(service.Id == id){
+                            data = service;
+                            return;
+                        }
+                    });
+                    return data;
+                },
+                send_data: function(){
+                    var _begin = this.conver_date(this.date_begin);
+                    var end = this.conver_date(this.date_end);
+                    var form = new FormData();
+                    this.data.services.forEach( (service)=>{
+                        form.append("list", service.Id);
+                    });
+                    form.append("date_begin", _begin);
+                    form.append("date_end", end);
+                    form.append("room_Id", this.data.room.id);
+
+                    this.$http.post("@Url.Action("Test", new { Controller = "BookRoom", Action = "Test" })",form).then( (data) => {
+                        _data = data;
+                        window.location.href = "@Url.Action("index", new { Controller = "Account", Action = "index" })"
+                    });
+                },
+                convert_room: function(datas){
+                    datas.forEach((data) => {
+                        this.rooms.push(data);
+                    });
+                },
+                conver_date: function(data){
+                    var str = data.split("/");
+                    return str[2]+"/"+str[0]+"/"+str[1];
+                }
+
+            }
+        })
+</script>
