@@ -27,9 +27,9 @@ namespace QuanLyKhachSan.Middleware
                 .listen(application);
 
 
-            //(new Site.LoginMiddleware())
-            //    .with(new string[] { "/account/*", "/account", "/bookroom", "/bookroom/*" })
-            //    .listen(application);
+            (new Site.LoginMiddleware())
+                .with(new string[] { "/account/*", "/account", "/bookroom", "/bookroom/*" })
+                .listen(application);
 
             (new Admin.PermissionMiddleware())
                 .with(new string[] { "/administrator/*", "/administrator" })
