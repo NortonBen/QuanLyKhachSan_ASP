@@ -3599,6 +3599,7 @@
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Helper\Auth.cs" />
     <Compile Include="Helper\Elememt.cs" />
+    <Compile Include="Helper\Paginate.cs" />
     <Compile Include="Helper\Until.cs" />
     <Compile Include="Middleware\Admin\PermissionMiddleware.cs" />
     <Compile Include="Middleware\Admin\RedirectLoginMiddleware.cs" />

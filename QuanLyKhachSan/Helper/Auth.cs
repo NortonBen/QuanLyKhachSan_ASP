@@ -128,12 +128,21 @@ namespace QuanLyKhachSan.Helper
 
         public string getToken()
         {
-            var cookie = request.Cookies.Get("auth");
-            if(cookie == null)
+
+            HttpCookie cookie = null;
+            try
             {
-                return null;
+                cookie = request.Cookies.Get("auth");
+           
+                if(cookie == null)
+                {
+                    return null;
+                }
+                this.token = cookie.Value;
+            }catch(Exception ex)
+            {
+                Console.Write(ex);
             }
-            this.token = cookie.Value;
             return this.token;
         }
 

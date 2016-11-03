@@ -1,4 +1,5 @@
-﻿@using QuanLyKhachSan.Models;
+﻿@using QuanLyKhachSan.Helper;
+@using QuanLyKhachSan.Models;
 @model List<Register>
 @{
     ViewBag.Title = "Index";
@@ -73,6 +74,7 @@
                                     }
 
                 </table>
+                @Html.Raw(Paginate.render(ViewBag.paginate))
             </div>
             <div class="clearfix"> </div>
         </div>

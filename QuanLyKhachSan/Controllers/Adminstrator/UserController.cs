@@ -18,9 +18,13 @@ namespace QuanLyKhachSan.Controllers.Administrator
         private DataContext db = new DataContext();
 
         // GET: User
-        public ActionResult Index()
+        public ActionResult Index(int page = 0, int part = 30)
         {
-            return View(db.User.ToList());
+            var total = db.User.Count() / part;
+            var paginate = Paginate.create(page, part, total);
+            var data = db.User.OrderBy(p => p.Id).Skip(paginate["page"] * part).Take((paginate["page"] + 1) * part).ToList();
+            ViewBag.paginate = paginate;
+            return View(data);
         }
 
         // GET: User/Details/5

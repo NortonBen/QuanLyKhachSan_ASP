@@ -12,10 +12,12 @@ namespace QuanLyKhachSan.Controllers
     {
         DataContext db = new DataContext();
         // GET: Account
-        public ActionResult Index()
+        public ActionResult Index(int page = 0,int part = 30)
         {
-            
-            var data = db.Register.Where( t => t.User_Id == AuthFactory.Auth.User.Id).ToList();
+            var total = db.Register.Where(t => t.User_Id == AuthFactory.Auth.User.Id).Count() / part;
+            var paginate = Paginate.create(page, part, total);
+            var data = db.Register.Where(t => t.User_Id == AuthFactory.Auth.User.Id).OrderBy(p => p.Id).Skip(paginate["page"] * part).Take((paginate["page"] + 1) * part).ToList();
+            ViewBag.paginate = paginate;
             return View(data);
         }
 

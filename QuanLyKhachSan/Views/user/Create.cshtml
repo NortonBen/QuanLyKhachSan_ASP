@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+    var roles = (new DataContext()).Role.ToList();
 }
 
 <link href="~/Content/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
@@ -127,7 +128,7 @@
                            <label for="permission" class="control-label col-md-2">Permission</label>
                             <div class="col-md-8">
                                 <select class="show-sex" name="permissons" multiple>
-                                    @foreach (Role role in ViewBag.roles)
+                                    @foreach (Role role in roles)
                                     {
                                         <option value="@role.Id">@role.permission</option>
                                     }

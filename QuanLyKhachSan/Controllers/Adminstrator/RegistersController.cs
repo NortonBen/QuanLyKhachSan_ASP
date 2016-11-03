@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using QuanLyKhachSan.Models;
+using QuanLyKhachSan.Helper;
 
 namespace QuanLyKhachSan.Controllers.Adminstrator
 {
@@ -17,10 +18,13 @@ namespace QuanLyKhachSan.Controllers.Adminstrator
         private DataContext db = new DataContext();
 
         // GET: Registers
-        public ActionResult Index()
+        public ActionResult Index(int page = 0,int part = 30)
         {
-            var register = db.Register.Include(r => r.Room).Include(r => r.User);
-            return View(register.ToList());
+            var total = db.Register.Count() / part;
+            var paginate = Paginate.create(page, part, total);
+            var data = db.Register.OrderBy(p => p.Id).Skip(paginate["page"] * part).Take((paginate["page"] + 1) * part).Include(r => r.Room).Include(r => r.User).ToList();
+            ViewBag.paginate = paginate;
+            return View(data);
         }
 
         // GET: Registers/Details/5

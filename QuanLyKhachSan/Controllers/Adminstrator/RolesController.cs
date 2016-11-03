@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using QuanLyKhachSan.Models;
+using QuanLyKhachSan.Helper;
 
 namespace QuanLyKhachSan.Controllers.Adminstrator
 {
@@ -17,9 +18,13 @@ namespace QuanLyKhachSan.Controllers.Adminstrator
         private DataContext db = new DataContext();
 
         // GET: Roles
-        public ActionResult Index()
+        public ActionResult Index(int page = 0, int part = 30)
         {
-            return View(db.Role.ToList());
+            var total = db.Role.Count()/ part;
+            var paginate = Paginate.create(page, part, total);
+            var data = db.Role.OrderBy(p => p.Id).Skip(paginate["page"] * part).Take((paginate["page"] + 1) * part).ToList();
+            ViewBag.paginate = paginate;
+            return View(data);
         }
 
         // GET: Roles/Details/5
